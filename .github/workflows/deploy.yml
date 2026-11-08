@@ -3,7 +3,8 @@ name: Deploy Estelle's Kitchen
 
 on:
   push:
-    branches: [main]
+    branches:
+      - main
   workflow_dispatch:
 
 permissions:
@@ -21,10 +22,10 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@
+        uses: "actions/checkout@v4"
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: "actions/setup-node@v4"
         with:
           node-version: 22
           cache: npm
@@ -36,12 +37,12 @@ jobs:
         run: npm run build
 
       - name: Configure Pages
-        uses: actions/configure-pages@v5
+        uses: "actions/configure-pages@v5"
 
       - name: Upload build
-        uses: actions/upload-pages-artifact@v3
+        uses: "actions/upload-pages-artifact@v3"
         with:
           path: ./dist
 
       - name: Deploy website
-        uses: actions/deploy-pages@v4
+        uses: "actions/deploy-pages@v4"
