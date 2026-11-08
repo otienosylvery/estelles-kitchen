@@ -65,9 +65,133 @@ function Brand() {
 }
 
 // Booking form component
+// function BookingForm() {
+//   const [message, setMessage] = useState("");
+//   const [status, setStatus] = useState("");
+
+//   function submit(e) {
+//     e.preventDefault();
+
+//     const data = new FormData(e.currentTarget);
+
+//     const enquiryMessage = [
+//       "Hello Estelle's Kitchen! I'd like to enquire about a culinary experience.",
+//       "",
+//       `Name: ${data.get("name")}`,
+//       `Phone: ${data.get("phone")}`,
+//       `Service: ${data.get("service")}`,
+//       `Date: ${data.get("date") || "Flexible"}`,
+//       `Guests: ${data.get("guests") || "Not sure yet"}`,
+//       `Budget: ${data.get("budget") || "Not sure yet"}`,
+//       `Details: ${data.get("details") || "None provided"}`,
+//     ].join("\n");
+
+//     setMessage(enquiryMessage);
+
+//     setStatus(
+//       "Your enquiry is prepared. Copy it into WhatsApp; direct sending will be enabled when Estelle’s number is confirmed.",
+//     );
+//   }
+
+//   return (
+//     <form className="form" onSubmit={submit}>
+//       <div className="field">
+//         <label>Name *</label>
+//         <input name="name" required placeholder="Full name" />
+//       </div>
+
+//       <div className="field">
+//         <label>Phone / WhatsApp *</label>
+//         <input name="phone" required placeholder="07xx xxx xxx" />
+//       </div>
+
+//       <div className="field">
+//         <label>Experience *</label>
+
+//         <select name="service" required defaultValue="">
+//           <option value="" disabled>
+//             Choose a service
+//           </option>
+
+//           {services.map((service) => (
+//             <option key={service[0]} value={service[0]}>
+//               {service[0]}
+//             </option>
+//           ))}
+//         </select>
+//       </div>
+
+//       <div className="field">
+//         <label>Preferred date</label>
+//         <input type="date" name="date" />
+//       </div>
+
+//       <div className="field">
+//         <label>Number of guests</label>
+
+//         <select name="guests">
+//           <option>Not sure yet</option>
+//           <option>1–2</option>
+//           <option>3–6</option>
+//           <option>7–12</option>
+//           <option>13–25</option>
+//           <option>26+</option>
+//         </select>
+//       </div>
+
+//       <div className="field">
+//         <label>Estimated budget (KSh)</label>
+
+//         <select name="budget">
+//           <option>Not sure yet</option>
+//           <option>Under 10,000</option>
+//           <option>10,000–25,000</option>
+//           <option>25,000–50,000</option>
+//           <option>50,000–100,000</option>
+//           <option>100,000+</option>
+//         </select>
+//       </div>
+
+//       <div className="field full">
+//         <label>Tell us a little more</label>
+
+//         <textarea
+//           name="details"
+//           rows="4"
+//           placeholder="Occasion, location, food preferences, dietary requirements…"
+//         />
+//       </div>
+
+//       <button className="btn gold full" type="submit">
+//         Prepare enquiry ↗
+//       </button>
+
+//       {status && (
+//         <div className="result full" role="status">
+//           <p>{status}</p>
+
+//           <textarea readOnly rows="7" value={message} />
+
+//           <button
+//             type="button"
+//             className="btn outline-dark"
+//             onClick={() => navigator.clipboard?.writeText(message)}
+//           >
+//             Copy enquiry
+//           </button>
+//         </div>
+//       )}
+
+//       <p className="note full">
+//         Demo mode: the form does not store customer information. Direct WhatsApp
+//         handoff is not yet enabled.
+//       </p>
+//     </form>
+//   );
+// }
+
 function BookingForm() {
-  const [message, setMessage] = useState("");
-  const [status, setStatus] = useState("");
+  const WHATSAPP_NUMBER = "254725392471";
 
   function submit(e) {
     e.preventDefault();
@@ -86,11 +210,9 @@ function BookingForm() {
       `Details: ${data.get("details") || "None provided"}`,
     ].join("\n");
 
-    setMessage(enquiryMessage);
+    const whatsappURL = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(enquiryMessage)}`;
 
-    setStatus(
-      "Your enquiry is prepared. Copy it into WhatsApp; direct sending will be enabled when Estelle’s number is confirmed.",
-    );
+    window.open(whatsappURL, "_blank", "noopener,noreferrer");
   }
 
   return (
@@ -102,12 +224,11 @@ function BookingForm() {
 
       <div className="field">
         <label>Phone / WhatsApp *</label>
-        <input name="phone" required placeholder="07xx xxx xxx" />
+        <input name="phone" type="tel" required placeholder="07xx xxx xxx" />
       </div>
 
       <div className="field">
         <label>Experience *</label>
-
         <select name="service" required defaultValue="">
           <option value="" disabled>
             Choose a service
@@ -128,7 +249,6 @@ function BookingForm() {
 
       <div className="field">
         <label>Number of guests</label>
-
         <select name="guests">
           <option>Not sure yet</option>
           <option>1–2</option>
@@ -141,7 +261,6 @@ function BookingForm() {
 
       <div className="field">
         <label>Estimated budget (KSh)</label>
-
         <select name="budget">
           <option>Not sure yet</option>
           <option>Under 10,000</option>
@@ -154,7 +273,6 @@ function BookingForm() {
 
       <div className="field full">
         <label>Tell us a little more</label>
-
         <textarea
           name="details"
           rows="4"
@@ -163,28 +281,12 @@ function BookingForm() {
       </div>
 
       <button className="btn gold full" type="submit">
-        Prepare enquiry ↗
+        Send Enquiry via WhatsApp ↗
       </button>
 
-      {status && (
-        <div className="result full" role="status">
-          <p>{status}</p>
-
-          <textarea readOnly rows="7" value={message} />
-
-          <button
-            type="button"
-            className="btn outline-dark"
-            onClick={() => navigator.clipboard?.writeText(message)}
-          >
-            Copy enquiry
-          </button>
-        </div>
-      )}
-
       <p className="note full">
-        Demo mode: the form does not store customer information. Direct WhatsApp
-        handoff is not yet enabled.
+        You'll be redirected to WhatsApp to review and send your enquiry
+        directly to Estelle's Kitchen.
       </p>
     </form>
   );
