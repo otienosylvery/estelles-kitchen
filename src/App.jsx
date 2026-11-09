@@ -67,11 +67,16 @@ function Brand() {
 // Booking form component
 function BookingForm() {
   const WHATSAPP_NUMBER = "254796742028";
+  const FORMSPREE_ENDPOINT = "https://formspree.io/f/maeezrbe";
 
-  function submit(e) {
+  const [status, setStatus] = useState("idle");
+  const [errorMessage, setErrorMessage] = useState("");
+
+  async function submit(e) {
     e.preventDefault();
 
-    const data = new FormData(e.currentTarget);
+    const form = e.currentTarget;
+    const data = new FormData(form);
 
     const enquiryMessage = [
       "Hello Estelle's Kitchen! I'd like to enquire about a culinary experience.",
@@ -85,9 +90,58 @@ function BookingForm() {
       `Details: ${data.get("details") || "None provided"}`,
     ].join("\n");
 
-    const whatsappURL = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(enquiryMessage)}`;
+    setStatus("sending");
+    setErrorMessage("");
 
-    window.open(whatsappURL, "_blank", "noopener,noreferrer");
+    try{
+      const response = await fetch(FORMSPREE_ENDPOINT, {
+        method: "POST",
+        body: data,
+        headers: {
+          Accept: "application/json",
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error("Unable to submit your enquiry. Please try again");
+      }
+
+      setStatus("success");
+      form.reset();
+    }catch(error){
+      setStatus("error");
+      setErrorMessage(
+        error.message || "Something went wrong. Please try again."
+      );
+    }
+  }
+  // Redirect to WhatsApp with the enquiry message
+  function sendViaWhatsApp (e){
+    e.preventDefault();
+
+    const form = e.currentTarget.closest("form");
+
+    if (!form.reportValidity()) return;
+
+    const data = new FormData(form);
+
+    const enquiryMessage = [
+      "Hello Estelle's Kitchen! I'd like to enquire about a culinary experience.",
+      "",
+      `Name: ${data.get("name")}`,
+      `Phone: ${data.get("phone")}`,
+      `Service: ${data.get("service")}`,
+      `Date: ${data.get("date") || "Flexible"}`,
+      `Guests: ${data.get("guests") || "Not sure yet"}`,
+      `Budget: ${data.get("budget") || "Not sure yet"}`,
+      `Details: ${data.get("details") || "None provided"}`,
+    ].join("\n");
+
+    const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(
+      enquiryMessage
+    )}`;
+
+    window.open(whatsappUrl, "_blank");
   }
 
   return (
@@ -155,13 +209,47 @@ function BookingForm() {
         />
       </div>
 
-      <button className="btn gold full" type="submit">
-        Send Enquiry via WhatsApp ↗
+      <button 
+        className="btn gold full" 
+        type="submit"
+        disabled = {status === "sending"}
+        >
+          {status === "sending" 
+            ? "Sending enquiry..." 
+            : "Submit Enquiry ↗"}
       </button>
 
+      <button
+        className = "btn otline-dark full"
+        type="button"
+        onClick={sendViaWhatsApp}
+        
+      >
+          Enquire via WhatsApp ↗
+      </button>
+
+      {status === "success" && (
+        <div className ="result full role=status">
+          <p>
+            Thank you! Your enquiry has been submitted successfully.
+            Estelle's Kitchen will be in touch.
+          </p>
+
+        </div>
+        )}
+
+        {status === "error" && (
+          <div className="result full role=status">
+            <p>
+              {errorMessage || "Something went wrong. Try again."}
+            </p>
+            <p>You can also send your enquiry directly to Estelle's Kitchen via WhatsApp.</p>
+          </div>
+        )}
+
       <p className="note full">
-        You'll be redirected to WhatsApp to review and send your enquiry
-        directly to Estelle's Kitchen.
+        Your enquiry is sent directly to Estelle's Kitchen. Alternatively,
+        use WhatsApp to contact us.
       </p>
     </form>
   );
