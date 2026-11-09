@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 
 import {
@@ -113,7 +112,7 @@ function BookingForm({ selectedService, setSelectedService }) {
     } catch (error) {
       setStatus("error");
       setErrorMessage(
-        error.message || "Something went wrong. Please try again."
+        error.message || "Something went wrong. Please try again.",
       );
     }
   }
@@ -141,7 +140,7 @@ function BookingForm({ selectedService, setSelectedService }) {
     ].join("\n");
 
     const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(
-      enquiryMessage
+      enquiryMessage,
     )}`;
 
     window.open(whatsappUrl, "_blank", "noopener,noreferrer");
@@ -151,12 +150,7 @@ function BookingForm({ selectedService, setSelectedService }) {
     <form className="form" onSubmit={submit}>
       <div className="field">
         <label htmlFor="enquiry-name">Name *</label>
-        <input
-          id="enquiry-name"
-          name="name"
-          required
-          placeholder="Full name"
-        />
+        <input id="enquiry-name" name="name" required placeholder="Full name" />
       </div>
 
       <div className="field">
@@ -249,8 +243,8 @@ function BookingForm({ selectedService, setSelectedService }) {
       {status === "success" && (
         <div className="result full success-message" role="status">
           <p>
-            Thank you! Your enquiry has been submitted successfully.
-            Estelle's Kitchen will be in touch.
+            Thank you! Your enquiry has been submitted successfully. Estelle's
+            Kitchen will be in touch.
           </p>
         </div>
       )}
@@ -263,10 +257,77 @@ function BookingForm({ selectedService, setSelectedService }) {
       )}
 
       <p className="note full">
-        Your enquiry is sent directly to Estelle's Kitchen. Alternatively,
-        use WhatsApp to contact us.
+        Your enquiry is sent directly to Estelle's Kitchen. Alternatively, use
+        WhatsApp to contact us.
       </p>
     </form>
+  );
+}
+
+const faqs = [
+  {
+    question: "How do I book Estelle's Kitchen?",
+    answer:
+      "Submit an enquiry through our booking form with your preferred date, service and event details. We will get in touch to discuss your requirements and confirm availability.",
+  },
+  {
+    question: "Can I request a customised menu?",
+    answer:
+      "Absolutely. Menus can be discussed and tailored around your occasion, food preferences and the dining experience you have in mind.",
+  },
+  {
+    question: "Do you cater for dietary requirements?",
+    answer:
+      "Please share any dietary requirements, allergies or food preferences when making your enquiry. We will discuss suitable menu options with you.",
+  },
+  {
+    question: "How is the cost of a service determined?",
+    answer:
+      "Pricing depends on the type of service, menu selection, number of guests, location and any additional requirements. You will receive a quotation based on your enquiry.",
+  },
+  {
+    question: "How far in advance should I make a booking?",
+    answer:
+      "We recommend enquiring as early as possible, especially for private dining and larger events. All bookings are subject to availability.",
+  },
+  {
+    question: "Which locations do you serve?",
+    answer:
+      "Share your event or preferred service location when enquiring. We will confirm whether the requested location can be accommodated.",
+  },
+];
+
+function FAQ() {
+  return (
+    <section className="faq section" id="faq">
+      <div className="wrap faq-layout">
+        <div className="faq-intro">
+          <span className="eyebrow">GOOD TO KNOW</span>
+          <h2>
+            Questions, <em>answered.</em>
+          </h2>
+          <p>
+            A little more information to help you plan your next memorable
+            dining experience.
+          </p>
+          <a href="#booking" className="text-link">
+            Have another question? Get in touch ↗
+          </a>
+        </div>
+
+        <div className="faq-list">
+          {faqs.map((item, index) => (
+            <details className="faq-item" key={index}>
+              <summary>
+                <span>{item.question}</span>
+                <span className="faq-toggle">+</span>
+              </summary>
+              <p>{item.answer}</p>
+            </details>
+          ))}
+        </div>
+      </div>
+    </section>
   );
 }
 
@@ -298,16 +359,9 @@ export default function App() {
             {open ? <X /> : <Menu />}
           </button>
 
-          <nav
-            id="main-navigation"
-            className={open ? "links open" : "links"}
-          >
+          <nav id="main-navigation" className={open ? "links open" : "links"}>
             {navigation.map(([title, href]) => (
-              <a
-                href={href}
-                key={href}
-                onClick={() => setOpen(false)}
-              >
+              <a href={href} key={href} onClick={() => setOpen(false)}>
                 {title}
               </a>
             ))}
@@ -338,8 +392,8 @@ export default function App() {
             </h1>
 
             <p>
-              Thoughtfully prepared dining experiences, created around you,
-              your guests and the moments that matter.
+              Thoughtfully prepared dining experiences, created around you, your
+              guests and the moments that matter.
             </p>
 
             <div className="actions">
@@ -354,8 +408,7 @@ export default function App() {
             </div>
 
             <div className="signature">
-              <span />
-              A more personal kind of dining
+              <span />A more personal kind of dining
             </div>
           </div>
 
@@ -375,9 +428,7 @@ export default function App() {
         {/* Introduction */}
         <section className="wrap intro">
           <div>
-            <span className="eyebrow">
-              A more personal kind of dining
-            </span>
+            <span className="eyebrow">A more personal kind of dining</span>
 
             <h2>
               Made with care.
@@ -388,15 +439,15 @@ export default function App() {
 
           <div className="muted">
             <p>
-              At Estelle's Kitchen, food is more than what's on the plate.
-              It's the thoughtful details, the comfort of being hosted, and
-              the pleasure of sharing something memorable.
+              At Estelle's Kitchen, food is more than what's on the plate. It's
+              the thoughtful details, the comfort of being hosted, and the
+              pleasure of sharing something memorable.
             </p>
 
             <p>
               From a quiet dinner at home to a table full of your favourite
-              people, each experience is shaped around your occasion, tastes
-              and needs.
+              people, each experience is shaped around your occasion, tastes and
+              needs.
             </p>
 
             <div className="script">Your table, your way.</div>
@@ -434,10 +485,7 @@ export default function App() {
 
                   <p>{description}</p>
 
-                  <a
-                    href="#booking"
-                    onClick={() => setSelectedService(title)}
-                  >
+                  <a href="#booking" onClick={() => setSelectedService(title)}>
                     Explore service ↗
                   </a>
                 </article>
@@ -503,8 +551,8 @@ export default function App() {
               <h3>Shape your experience</h3>
 
               <p>
-                We'll discuss menu preferences, dietary needs, location and
-                the details that matter.
+                We'll discuss menu preferences, dietary needs, location and the
+                details that matter.
               </p>
             </article>
 
@@ -520,6 +568,7 @@ export default function App() {
             </article>
           </div>
         </section>
+        <FAQ />
 
         {/* Booking */}
         <section className="booking" id="booking">
@@ -571,6 +620,7 @@ export default function App() {
               <a href="#services">Services</a>
               <a href="#experience">Our approach</a>
               <a href="#booking">Enquiries</a>
+              <a href="#faq">FAQs</a>
             </div>
           </div>
 
