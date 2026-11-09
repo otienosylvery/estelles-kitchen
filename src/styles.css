@@ -443,6 +443,32 @@ footer {
   justify-content: space-between;
   gap: 15px;
 }
+.success-message{
+  animation: successFade 5s forwards;
+}
+@keyframes successFade{
+  0%{
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  12%{
+    opacity: 1;
+    transform: translateY(0);
+  }
+  80%{
+    opacity: 1;
+    transform: translateY(0);
+  }
+  100%{
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .success-message {
+    animation: none;
+  }
+}
 @media (max-width: 820px) {
   .wrap {
     width: min(100% - 36px, 650px);

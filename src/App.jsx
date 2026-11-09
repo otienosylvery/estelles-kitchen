@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import {
   Menu,
@@ -71,6 +71,16 @@ function BookingForm() {
 
   const [status, setStatus] = useState("idle");
   const [errorMessage, setErrorMessage] = useState("");
+
+  useEffect(() => {
+    if (status === "success" || status === "error") {
+      const timer = setTimeout(() => {
+        setStatus("idle");
+      }, 5000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [status]);
 
   async function submit(e) {
     e.preventDefault();
@@ -229,7 +239,7 @@ function BookingForm() {
       </button>
 
       {status === "success" && (
-        <div className ="result full role=status">
+        <div className ="result full success-message role=status">
           <p>
             Thank you! Your enquiry has been submitted successfully.
             Estelle's Kitchen will be in touch.
