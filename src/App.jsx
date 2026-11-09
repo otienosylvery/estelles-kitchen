@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 
 import {
@@ -50,7 +51,7 @@ const services = [
 // Brand component
 function Brand() {
   return (
-    <a className="brand" href="#home">
+    <a className="brand" href="#home" aria-label="Estelle's Kitchen home">
       <span className="mark">
         <ChefHat size={24} />
         <i>E</i>
@@ -65,21 +66,23 @@ function Brand() {
 }
 
 // Booking form component
-function BookingForm() {
+function BookingForm({ selectedService, setSelectedService }) {
   const WHATSAPP_NUMBER = "254796742028";
   const FORMSPREE_ENDPOINT = "https://formspree.io/f/maeezrbe";
 
   const [status, setStatus] = useState("idle");
   const [errorMessage, setErrorMessage] = useState("");
 
+  // Automatically clear success and error messages after five seconds.
   useEffect(() => {
-    if (status === "success" || status === "error") {
-      const timer = setTimeout(() => {
-        setStatus("idle");
-      }, 5000);
+    if (status !== "success" && status !== "error") return;
 
-      return () => clearTimeout(timer);
-    }
+    const timer = setTimeout(() => {
+      setStatus("idle");
+      setErrorMessage("");
+    }, 5000);
+
+    return () => clearTimeout(timer);
   }, [status]);
 
   async function submit(e) {
@@ -88,22 +91,10 @@ function BookingForm() {
     const form = e.currentTarget;
     const data = new FormData(form);
 
-    const enquiryMessage = [
-      "Hello Estelle's Kitchen! I'd like to enquire about a culinary experience.",
-      "",
-      `Name: ${data.get("name")}`,
-      `Phone: ${data.get("phone")}`,
-      `Service: ${data.get("service")}`,
-      `Date: ${data.get("date") || "Flexible"}`,
-      `Guests: ${data.get("guests") || "Not sure yet"}`,
-      `Budget: ${data.get("budget") || "Not sure yet"}`,
-      `Details: ${data.get("details") || "None provided"}`,
-    ].join("\n");
-
     setStatus("sending");
     setErrorMessage("");
 
-    try{
+    try {
       const response = await fetch(FORMSPREE_ENDPOINT, {
         method: "POST",
         body: data,
@@ -113,20 +104,22 @@ function BookingForm() {
       });
 
       if (!response.ok) {
-        throw new Error("Unable to submit your enquiry. Please try again");
+        throw new Error("Unable to submit your enquiry. Please try again.");
       }
 
       setStatus("success");
       form.reset();
-    }catch(error){
+      setSelectedService("");
+    } catch (error) {
       setStatus("error");
       setErrorMessage(
         error.message || "Something went wrong. Please try again."
       );
     }
   }
-  // Redirect to WhatsApp with the enquiry message
-  function sendViaWhatsApp (e){
+
+  // Open WhatsApp with the customer's enquiry details.
+  function sendViaWhatsApp(e) {
     e.preventDefault();
 
     const form = e.currentTarget.closest("form");
@@ -151,24 +144,41 @@ function BookingForm() {
       enquiryMessage
     )}`;
 
-    window.open(whatsappUrl, "_blank");
+    window.open(whatsappUrl, "_blank", "noopener,noreferrer");
   }
 
   return (
     <form className="form" onSubmit={submit}>
       <div className="field">
-        <label>Name *</label>
-        <input name="name" required placeholder="Full name" />
+        <label htmlFor="enquiry-name">Name *</label>
+        <input
+          id="enquiry-name"
+          name="name"
+          required
+          placeholder="Full name"
+        />
       </div>
 
       <div className="field">
-        <label>Phone / WhatsApp *</label>
-        <input name="phone" type="tel" required placeholder="07xx xxx xxx" />
+        <label htmlFor="enquiry-phone">Phone / WhatsApp *</label>
+        <input
+          id="enquiry-phone"
+          name="phone"
+          type="tel"
+          required
+          placeholder="07xx xxx xxx"
+        />
       </div>
 
       <div className="field">
-        <label>Experience *</label>
-        <select name="service" required defaultValue="">
+        <label htmlFor="enquiry-service">Experience *</label>
+        <select
+          id="enquiry-service"
+          name="service"
+          required
+          value={selectedService}
+          onChange={(e) => setSelectedService(e.target.value)}
+        >
           <option value="" disabled>
             Choose a service
           </option>
@@ -182,13 +192,13 @@ function BookingForm() {
       </div>
 
       <div className="field">
-        <label>Preferred date</label>
-        <input type="date" name="date" />
+        <label htmlFor="enquiry-date">Preferred date</label>
+        <input id="enquiry-date" type="date" name="date" />
       </div>
 
       <div className="field">
-        <label>Number of guests</label>
-        <select name="guests">
+        <label htmlFor="enquiry-guests">Number of guests</label>
+        <select id="enquiry-guests" name="guests">
           <option>Not sure yet</option>
           <option>1–2</option>
           <option>3–6</option>
@@ -199,8 +209,8 @@ function BookingForm() {
       </div>
 
       <div className="field">
-        <label>Estimated budget (KSh)</label>
-        <select name="budget">
+        <label htmlFor="enquiry-budget">Estimated budget (KSh)</label>
+        <select id="enquiry-budget" name="budget">
           <option>Not sure yet</option>
           <option>Under 10,000</option>
           <option>10,000–25,000</option>
@@ -211,51 +221,46 @@ function BookingForm() {
       </div>
 
       <div className="field full">
-        <label>Tell us a little more</label>
+        <label htmlFor="enquiry-details">Tell us a little more</label>
         <textarea
+          id="enquiry-details"
           name="details"
           rows="4"
-          placeholder="Occasion, location, food preferences, dietary requirements…"
+          placeholder="Occasion, location, food preferences, dietary requirements..."
         />
       </div>
 
-      <button 
-        className="btn gold full" 
+      <button
+        className="btn gold full"
         type="submit"
-        disabled = {status === "sending"}
-        >
-          {status === "sending" 
-            ? "Sending enquiry..." 
-            : "Submit Enquiry ↗"}
+        disabled={status === "sending"}
+      >
+        {status === "sending" ? "Sending enquiry..." : "Submit Enquiry ↗"}
       </button>
 
       <button
-        className = "btn otline-dark full"
+        className="btn outline-dark full"
         type="button"
         onClick={sendViaWhatsApp}
-        
       >
-          Enquire via WhatsApp ↗
+        Enquire via WhatsApp ↗
       </button>
 
       {status === "success" && (
-        <div className ="result full success-message role=status">
+        <div className="result full success-message" role="status">
           <p>
             Thank you! Your enquiry has been submitted successfully.
             Estelle's Kitchen will be in touch.
           </p>
-
         </div>
-        )}
+      )}
 
-        {status === "error" && (
-          <div className="result full role=status">
-            <p>
-              {errorMessage || "Something went wrong. Try again."}
-            </p>
-            <p>You can also send your enquiry directly to Estelle's Kitchen via WhatsApp.</p>
-          </div>
-        )}
+      {status === "error" && (
+        <div className="result full" role="alert">
+          <p>{errorMessage}</p>
+          <p>You can also send your enquiry directly through WhatsApp.</p>
+        </div>
+      )}
 
       <p className="note full">
         Your enquiry is sent directly to Estelle's Kitchen. Alternatively,
@@ -268,6 +273,13 @@ function BookingForm() {
 // Main application
 export default function App() {
   const [open, setOpen] = useState(false);
+  const [selectedService, setSelectedService] = useState("");
+
+  const navigation = [
+    ["Our approach", "#experience"],
+    ["Services", "#services"],
+    ["How it works", "#process"],
+  ];
 
   return (
     <>
@@ -279,19 +291,23 @@ export default function App() {
           <button
             className="toggle"
             onClick={() => setOpen(!open)}
-            aria-label="Toggle navigation"
+            aria-label={open ? "Close navigation" : "Open navigation"}
             aria-expanded={open}
+            aria-controls="main-navigation"
           >
             {open ? <X /> : <Menu />}
           </button>
 
-          <nav className={open ? "links open" : "links"}>
-            {[
-              ["Our approach", "#experience"],
-              ["Services", "#services"],
-              ["How it works", "#process"],
-            ].map(([title, href]) => (
-              <a href={href} key={href} onClick={() => setOpen(false)}>
+          <nav
+            id="main-navigation"
+            className={open ? "links open" : "links"}
+          >
+            {navigation.map(([title, href]) => (
+              <a
+                href={href}
+                key={href}
+                onClick={() => setOpen(false)}
+              >
                 {title}
               </a>
             ))}
@@ -308,7 +324,7 @@ export default function App() {
       </header>
 
       <main>
-        {/* Hero section */}
+        {/* Hero */}
         <section className="hero" id="home">
           <div className="hero-copy">
             <span className="eyebrow">
@@ -322,8 +338,8 @@ export default function App() {
             </h1>
 
             <p>
-              Thoughtfully prepared dining experiences, created around you, your
-              guests and the moments that matter.
+              Thoughtfully prepared dining experiences, created around you,
+              your guests and the moments that matter.
             </p>
 
             <div className="actions">
@@ -338,7 +354,8 @@ export default function App() {
             </div>
 
             <div className="signature">
-              <span />A more personal kind of dining
+              <span />
+              A more personal kind of dining
             </div>
           </div>
 
@@ -358,7 +375,9 @@ export default function App() {
         {/* Introduction */}
         <section className="wrap intro">
           <div>
-            <span className="eyebrow">A more personal kind of dining</span>
+            <span className="eyebrow">
+              A more personal kind of dining
+            </span>
 
             <h2>
               Made with care.
@@ -369,15 +388,15 @@ export default function App() {
 
           <div className="muted">
             <p>
-              At Estelle's Kitchen, food is more than what's on the plate. It's
-              the thoughtful details, the comfort of being hosted, and the
-              pleasure of sharing something memorable.
+              At Estelle's Kitchen, food is more than what's on the plate.
+              It's the thoughtful details, the comfort of being hosted, and
+              the pleasure of sharing something memorable.
             </p>
 
             <p>
               From a quiet dinner at home to a table full of your favourite
-              people, each experience is shaped around your occasion, tastes and
-              needs.
+              people, each experience is shaped around your occasion, tastes
+              and needs.
             </p>
 
             <div className="script">Your table, your way.</div>
@@ -417,13 +436,7 @@ export default function App() {
 
                   <a
                     href="#booking"
-                    onClick={() => {
-                      const select = document.querySelector('[name="service"]');
-
-                      if (select) {
-                        select.value = title;
-                      }
-                    }}
+                    onClick={() => setSelectedService(title)}
                   >
                     Explore service ↗
                   </a>
@@ -433,7 +446,7 @@ export default function App() {
           </div>
         </section>
 
-        {/* Experience section */}
+        {/* Experience */}
         <section className="experience" id="experience">
           <div
             className="experience-image"
@@ -490,8 +503,8 @@ export default function App() {
               <h3>Shape your experience</h3>
 
               <p>
-                We'll discuss menu preferences, dietary needs, location and the
-                details that matter.
+                We'll discuss menu preferences, dietary needs, location and
+                the details that matter.
               </p>
             </article>
 
@@ -533,7 +546,10 @@ export default function App() {
               </div>
             </div>
 
-            <BookingForm />
+            <BookingForm
+              selectedService={selectedService}
+              setSelectedService={setSelectedService}
+            />
           </div>
         </section>
       </main>
