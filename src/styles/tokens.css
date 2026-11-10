@@ -1,0 +1,43 @@
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;1,400&display=swap");
+
+:root {
+  /* Brand colours */
+  --green: #20291f;
+  --green-deep: #171e17;
+  --green-soft: #303b2e;
+
+  --gold: #b69a69;
+  --gold-dark: #9b8051;
+
+  --ivory: #f4efe5;
+  --surface: #fffcf7;
+  --surface-soft: #ebe5d9;
+
+  /* Text colours */
+  --text-primary: #25271f;
+  --text-secondary: #65665b;
+  --text-muted: #858478;
+
+  /* Borders */
+  --border: #ded8cc;
+  --border-soft: #20291f18;
+
+  /* Typography */
+  --serif: "Playfair Display", Georgia, serif;
+  --sans: "DM Sans", sans-serif;
+
+  /* Layout */
+  --content-width: 1160px;
+  --section-space: clamp(70px, 8vw, 105px);
+
+  /* Border radius */
+  --radius-sm: 3px;
+  --radius-md: 6px;
+
+  /* Shadows */
+  --shadow-soft: 0 8px 25px rgba(32, 41, 31, 0.06);
+  --shadow-card: 0 16px 35px rgba(32, 41, 31, 0.1);
+
+  /* Transitions */
+  --transition: 250ms ease;
+}

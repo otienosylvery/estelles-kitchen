@@ -1,0 +1,118 @@
+/* Shared content container */
+.wrap {
+  width: min(1160px, calc(100% - 48px));
+  margin: auto;
+}
+
+/* Header */
+header {
+  background: var(--green);
+  color: var(--ivory);
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.08);
+}
+
+/* Navigation */
+.nav {
+  min-height: 84px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+/* Brand */
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  color: var(--gold);
+  line-height: 1;
+}
+
+.brand b {
+  font: 1.35rem var(--serif);
+  letter-spacing: 0.07em;
+}
+
+.brand small {
+  display: block;
+  color: var(--ivory);
+  font-size: 0.56rem;
+  letter-spacing: 0.35em;
+  text-align: center;
+  margin-top: 7px;
+}
+
+/* Brand monogram */
+.mark {
+  position: relative;
+  width: 42px;
+  height: 42px;
+  display: grid;
+  place-items: start center;
+}
+
+.mark i {
+  position: absolute;
+  top: 13px;
+  font: italic 27px var(--serif);
+}
+
+/* Navigation links */
+.links {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+}
+
+.links > a:not(.btn) {
+  opacity: 0.85;
+  position: relative;
+  transition: opacity var(--transition);
+}
+
+/* Navigation hover underline */
+.links > a:not(.btn)::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -7px;
+  width: 0;
+  height: 1px;
+  background: var(--gold);
+  transition: width var(--transition);
+}
+
+.links > a:not(.btn):hover {
+  opacity: 1;
+  color: var(--gold);
+}
+
+.links > a:not(.btn):hover::after {
+  width: 100%;
+}
+
+/* Mobile navigation toggle */
+.toggle {
+  display: none;
+  background: none;
+  color: var(--ivory);
+  border: 1px solid #ffffff40;
+  padding: 8px;
+  cursor: pointer;
+  border-radius: var(--radius-sm);
+  transition:
+    background var(--transition),
+    border-color var(--transition);
+}
+
+.toggle:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: var(--gold);
+}

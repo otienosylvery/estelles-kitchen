@@ -1,0 +1,210 @@
+/* =========================================
+   INTRODUCTION SECTION
+========================================= */
+
+.intro {
+  display: grid;
+  grid-template-columns: 0.8fr 1.2fr;
+  gap: 70px;
+  align-items: start;
+  padding-block: var(--section-space);
+}
+
+.intro h2 {
+  font: clamp(2.2rem, 4vw, 3.5rem) / 1.15 var(--serif);
+  font-weight: 400;
+  margin: 14px 0;
+}
+
+.muted {
+  color: var(--text-secondary);
+  line-height: 1.85;
+}
+
+.script {
+  font-family: var(--serif);
+  font-style: italic;
+  color: var(--gold-dark);
+}
+
+/* =========================================
+   SERVICES SECTION
+========================================= */
+
+.services {
+  padding-block: var(--section-space);
+  background: var(--ivory);
+}
+
+.section-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  gap: 30px;
+  margin-bottom: 45px;
+}
+
+.section-top h2 {
+  font: clamp(2.2rem, 4vw, 3.5rem) / 1.15 var(--serif);
+  font-weight: 400;
+  margin: 12px 0 0;
+}
+
+.section-top p {
+  max-width: 390px;
+  color: var(--text-secondary);
+  line-height: 1.85;
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.card {
+  background: var(--ivory);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 32px;
+  min-height: 280px;
+  box-shadow: var(--shadow-soft);
+  transition:
+    transform var(--transition),
+    box-shadow var(--transition),
+    border-color var(--transition);
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-card);
+  border-color: var(--gold);
+}
+
+.num {
+  display: block;
+  color: var(--gold-dark);
+  font: 1rem var(--serif);
+  margin-bottom: 22px;
+}
+
+.service-icon {
+  color: var(--gold-dark);
+  font-size: 1.5rem;
+  margin-bottom: 18px;
+}
+
+.card h3 {
+  font: 1.45rem / 1.3 var(--serif);
+  font-weight: 400;
+  margin: 0 0 12px;
+}
+
+.card p {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  line-height: 1.8;
+  margin: 0 0 20px;
+}
+
+.card a {
+  display: inline-block;
+  color: var(--gold-dark);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  transition:
+    color var(--transition),
+    letter-spacing var(--transition);
+}
+
+.card a:hover {
+  color: var(--green);
+  letter-spacing: 0.12em;
+}
+
+/* =========================================
+   EXPERIENCE SECTION
+========================================= */
+
+.experience {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  background: var(--green);
+  color: var(--ivory);
+}
+
+.experience-image {
+  min-height: 550px;
+  background: url("/estelles-kitchen/images/experience.jpg") center/cover;
+  background-position: center;
+  background-size: cover;
+}
+
+.experience-copy {
+  padding: 80px clamp(30px, 7vw, 100px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.experience-copy h2 {
+  font: clamp(2.2rem, 4vw, 3.5rem) / 1.15 var(--serif);
+  font-weight: 400;
+  margin: 16px 0 24px;
+  max-width: 500px;
+}
+
+.experience-copy p {
+  color: #d5d5ca;
+  line-height: 1.9;
+  max-width: 480px;
+}
+
+/* =========================================
+   PROCESSES SECTION
+========================================= */
+
+.process {
+  padding-block: var(--section-space);
+}
+
+.process h2 {
+  font: clamp(2.2rem, 4vw, 3.5rem) / 1.15 var(--serif);
+  font-weight: 400;
+  margin: 12px 0 45px;
+}
+
+.steps {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 40px;
+}
+
+.steps article {
+  border-top: 1px solid var(--border);
+  padding-top: 25px;
+  transition: border-color var(--transition);
+}
+
+.steps article:hover {
+  border-color: var(--gold);
+}
+
+.steps article > span {
+  color: var(--gold-dark);
+  font: 1.1rem var(--serif);
+}
+
+.steps h3 {
+  font: 1.4rem / 1.3 var(--serif);
+  font-weight: 400;
+  margin: 18px 0 12px;
+}
+
+.steps p {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  line-height: 1.85;
+}
