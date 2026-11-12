@@ -184,7 +184,7 @@ header {
   overflow: hidden;
   background-image:
     linear-gradient(0deg, #11170f33, #11170f00),
-    url("/estelles-kitchen/images/hero.jpg");
+    url("/images/hero1.png");
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
@@ -308,7 +308,7 @@ header {
 }
 .experience-image {
   min-height: 500px;
-  background: url("/estelles-kitchen/images/experience.jpg")
+  background: url("/images/experience.jpg")
     center/cover;
 }
 .experience-copy {
