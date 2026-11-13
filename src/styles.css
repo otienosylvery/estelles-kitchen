@@ -308,7 +308,7 @@ header {
 }
 .experience-image {
   min-height: 500px;
-  background: url("/images/experience.jpg")
+  background: url("/images/experience1.png")
     center/cover;
 }
 .experience-copy {
