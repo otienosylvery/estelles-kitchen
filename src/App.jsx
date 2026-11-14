@@ -8,7 +8,7 @@ import Experience from "./sections/Experience";
 import Processes from "./sections/Processes";
 import FAQ from "./sections/FAQ";
 import Booking from "./sections/Booking";
-
+import Gallery from "./sections/Gallery";
 
 // Main application
 export default function App() {
@@ -28,6 +28,10 @@ export default function App() {
         <Services setSelectedService={setSelectedService} />
         {/* Experience */}
         <Experience />
+
+        {/*Gallery*/}
+        <Gallery />
+
         {/* Process */}
         <Processes />
         <FAQ />
