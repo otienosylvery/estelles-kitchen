@@ -6,6 +6,7 @@ import Brand from "./Brand";
 const navigation = [
   ["Our approach", "#experience"],
   ["Services", "#services"],
+  ["Gallery", "#gallery"],
   ["How it works", "#process"],
   ["FAQs", "#faq"],
 ];
