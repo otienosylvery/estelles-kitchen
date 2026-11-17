@@ -13,7 +13,6 @@ import Gallery from "./sections/Gallery";
 // Main application
 export default function App() {
   const [selectedService, setSelectedService] = useState("");
-
   return (
     <>
       {/* Navigation */}
