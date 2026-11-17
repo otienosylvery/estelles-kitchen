@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState} from "react";
 import Header from "./components/layout/Header";
 import Footer from "./components/layout/Footer";
 import Hero from "./sections/Hero";
@@ -13,6 +13,8 @@ import Gallery from "./sections/Gallery";
 // Main application
 export default function App() {
   const [selectedService, setSelectedService] = useState("");
+
+
   return (
     <>
       {/* Navigation */}
