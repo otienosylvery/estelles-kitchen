@@ -101,6 +101,17 @@ export default function BookingForm({ selectedService, setSelectedService }) {
       </div>
 
       <div className="field">
+        <label htmlFor="enquiry-email">Email Address *</label>
+        <input
+          id="enquiry-email"
+          name="email"
+          type="email"
+          required
+          placeholder="yourname@example.com"
+        />
+      </div>
+
+      <div className="field">
         <label htmlFor="enquiry-service">Experience *</label>
         <select
           name="service"
